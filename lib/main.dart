@@ -71,23 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
 
-      body: Container(
-          child: FutureBuilder(
-            future: response,
-            builder: (BuildContext context, AsyncSnapshot snapshot){
-              if(snapshot.hasData){
-                return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context,index){
-                    return Text(snapshot.data[index]['brand']);
-                  },
-                );
-              }
-              else {
-                return CircularProgressIndicator();
-              }
-            },
-          ),
+      body: Center(
+         child: GestureDetector(
+           onTap: postRequest,
+           child: Text("Post"),
+         ),
       ),
         );
   }
@@ -95,4 +83,47 @@ class _MyHomePageState extends State<MyHomePage> {
     var result = await http.get(Uri.parse("https://ev-trending-toprated.onrender.com/postcar"));
     return jsonDecode(result.body);
   }
+  void postRequest() async{
+    final uri = Uri.parse('https://ev-trending-toprated.onrender.com/postcar');
+    final headers = {'Content-Type': 'application/json'};
+    Map<String, dynamic> body = {  "brand": "SVCE ECE",
+      "model": "SVCE ECE EV",
+      "range_km": 306,
+      "topspeed_km": 80,
+      "battery_pack_kwh": 26,
+      "accelsec": 11.4,
+      "rfficiency_whkm": 205,
+      "fastcharge_kmh": 190,
+      "rapidcharge": "Yes",
+      "powertrain": "AWD",
+      "plugtype": "Type 2 CCS",
+      "bodystyle": "Sedan",
+      "segment": "D",
+      "seats": 5,
+      "picture_url": "https://cars.usnews.com/images/article/201712/127376/1-_concept_vw_ID.Space_vizzion_DB2019AU01600_large_Cropped.jpg",
+      "pollutionDegree": "51%",
+      "chargingTIme": 6,
+      "topSpeedComp": 14,
+      "fuelCost": 2,
+      "priceINR": "₹990,000.00",
+      "priceSouthAfricanRand": "₹209,060.42",
+      "priceEuro": "€11,738.62",
+      "tax_credit": "",
+      "TCO": "15.33"};
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+    http.Response response = await http.post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+
+    int statusCode = response.statusCode;
+    String responseBody = response.body;
+   print(responseBody);
+
+  }
+
+
 }
