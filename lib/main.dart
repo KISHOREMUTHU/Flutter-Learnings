@@ -58,7 +58,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
    Future<List<dynamic>>? response;
-  @override
+   TextEditingController brandController = new TextEditingController();
+   TextEditingController modelController = new TextEditingController();
+   TextEditingController topSpeedController = new TextEditingController();
+   TextEditingController seatController = new TextEditingController();
+
+   String? brand = "";
+   String? model = "";
+   int? topSpeed = 0;
+   int? seat = 0;
+
+
+   @override
   void initState() {
     response= futureUsers();
     super.initState();
@@ -70,11 +81,166 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
     return Scaffold(
-
+       appBar : AppBar(
+         title: Text('Flutter Post Call'),
+       ),
       body: Center(
-         child: GestureDetector(
-           onTap: postRequest,
-           child: Text("Post"),
+         child: SingleChildScrollView(
+           child: Column(
+             children: [
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                      border: Border.all( color: Colors.black54),
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: TextField(
+                          style: TextStyle(
+
+                          ),
+                          onChanged: (String value){
+                            setState(() {
+                               brand = value;
+                               print(brand);
+                            });
+                          },
+                          controller: brandController,
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Brand'
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+               Padding(
+                 padding: const EdgeInsets.all(15.0),
+                 child: Container(
+                   height: 70,
+                   decoration: BoxDecoration(
+                       border: Border.all( color: Colors.black54),
+                       borderRadius: BorderRadius.circular(20)
+                   ),
+                   child: Center(
+                     child: Padding(
+                       padding: const EdgeInsets.all(15.0),
+                       child: TextField(
+                         style: TextStyle(
+
+                         ),
+                         onChanged: (String value){
+                           setState(() {
+                             model = value;
+                             print(model);
+                           });
+                         },
+                         controller: modelController,
+                         decoration: InputDecoration(
+                             border: InputBorder.none,
+                             hintText: 'Model'
+                         ),
+                       ),
+                     ),
+                   ),
+                 ),
+               ),
+               Padding(
+                 padding: const EdgeInsets.all(15.0),
+                 child: Container(
+                   height: 70,
+                   decoration: BoxDecoration(
+                       border: Border.all( color: Colors.black54),
+                       borderRadius: BorderRadius.circular(20)
+                   ),
+                   child: Center(
+                     child: Padding(
+                       padding: const EdgeInsets.all(15.0),
+                       child: TextField(
+                         keyboardType: TextInputType.number,
+                         style: TextStyle(
+
+                         ),
+                         onChanged: (value){
+                           setState(() {
+                             topSpeed = int.parse(value);
+                             print(topSpeed);
+                           });
+                         },
+                         controller: topSpeedController,
+                         decoration: InputDecoration(
+                             border: InputBorder.none,
+                             hintText: 'Top Speed'
+                         ),
+                       ),
+                     ),
+                   ),
+                 ),
+               ),
+
+               Padding(
+                 padding: const EdgeInsets.all(15.0),
+                 child: Container(
+                   height: 70,
+                   decoration: BoxDecoration(
+                       border: Border.all( color: Colors.black54),
+                       borderRadius: BorderRadius.circular(20)
+                   ),
+                   child: Center(
+                     child: Padding(
+                       padding: const EdgeInsets.all(15.0),
+                       child: TextField(
+                         keyboardType: TextInputType.number,
+                         style: TextStyle(
+
+                         ),
+                         onChanged: (value){
+                           setState(() {
+                             seat = int.parse(value);
+                             print(seat);
+                           });
+                         },
+                         controller: seatController,
+                         decoration: InputDecoration(
+                             border: InputBorder.none,
+                             hintText: 'Seat'
+                         ),
+                       ),
+                     ),
+                   ),
+                 ),
+               ),
+
+               GestureDetector(
+                 onTap: (){
+                   if(brand != "" && model != "" && topSpeed != 0 && seat != 0){
+                     postRequest(brand,model,topSpeed,seat);
+                   }
+
+                 },
+                 child: Padding(
+                   padding: const EdgeInsets.all(15.0),
+                   child: Container(
+                     decoration: BoxDecoration(
+                       borderRadius: BorderRadius.circular(30),
+                       color: Colors.lightBlue,
+
+                     ),
+                     height: 100,
+                       width: 100,
+                       child: Center(child: Text("Post", style: GoogleFonts.montserrat(
+                         fontSize: 20, color: Colors.white
+                       ),))
+                   ),
+                 ),
+               ),
+             ],
+           ),
          ),
       ),
         );
@@ -83,13 +249,13 @@ class _MyHomePageState extends State<MyHomePage> {
     var result = await http.get(Uri.parse("https://ev-trending-toprated.onrender.com/postcar"));
     return jsonDecode(result.body);
   }
-  void postRequest() async{
+  void postRequest(String? brand,String? model,int? topSpeed,int? seat) async{
     final uri = Uri.parse('https://ev-trending-toprated.onrender.com/postcar');
     final headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {  "brand": "SVCE ECE",
-      "model": "SVCE ECE EV",
+    Map<String, dynamic> body = {  "brand": brand,
+      "model": model,
       "range_km": 306,
-      "topspeed_km": 80,
+      "topspeed_km": topSpeed,
       "battery_pack_kwh": 26,
       "accelsec": 11.4,
       "rfficiency_whkm": 205,
@@ -99,7 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "plugtype": "Type 2 CCS",
       "bodystyle": "Sedan",
       "segment": "D",
-      "seats": 5,
+      "seats": seat,
       "picture_url": "https://cars.usnews.com/images/article/201712/127376/1-_concept_vw_ID.Space_vizzion_DB2019AU01600_large_Cropped.jpg",
       "pollutionDegree": "51%",
       "chargingTIme": 6,
