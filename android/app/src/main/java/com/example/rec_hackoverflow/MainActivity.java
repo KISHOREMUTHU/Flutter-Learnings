@@ -1,4 +1,4 @@
-package com.example.rec_hackoverflow;
+package com.example.udoc;
 
 import io.flutter.embedding.android.FlutterActivity;
 

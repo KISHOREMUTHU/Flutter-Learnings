@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.rec_hackoverflow">
+    package="com.example.udoc">
+    <uses-permission android:name="android.permission.ACTION_MANAGER_OVERLAY_PERMISSION" />
    <application
-        android:label="rec_hackoverflow"
+        android:label="SEIQ-Tool"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

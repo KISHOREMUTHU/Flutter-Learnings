@@ -24,7 +24,7 @@ class ThemeProvider extends ChangeNotifier {
 
   bool get isDarkMode {
     if (themeMode == ThemeMode.system) {
-      final brightness = SchedulerBinding.instance!.window.platformBrightness;
+      final brightness = SchedulerBinding.instance.window.platformBrightness;
       return brightness == Brightness.dark;
     } else {
       return themeMode == ThemeMode.dark;
@@ -40,7 +40,8 @@ class ThemeProvider extends ChangeNotifier {
 class MyThemes {
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.black,
-    primaryColor: Colors.black,
+    primaryColor: Colors.black54,
+
     secondaryHeaderColor: Colors.white,
     colorScheme: const ColorScheme.dark(),
     iconTheme: IconThemeData(color: Colors.purple.shade200, opacity: 0.8),

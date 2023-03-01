@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'google_sign_in_configs_app.dart';
+import 'google_login_configs.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,19 +16,48 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    Size? size = MediaQuery.of(context).size;
+    Color? color = const Color(0xFF27E9F7);
     return SafeArea(
       child: Scaffold(
         body: Container(
+
           alignment: Alignment.center,
-          decoration: const BoxDecoration(
+         height: size.height,
+          width: size.width,
+          decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
             image: DecorationImage(
-                fit: BoxFit.fill, image: AssetImage('assets/login_bg.gif')),
+              fit: BoxFit.cover,
+              image: AssetImage('assets/bg.gif')
+            )
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              GoogleSignInButtonWidget(),
+            children: [
+              SizedBox(
+                height: size.height *  0.45,
+                width: size.width * 0.75,
+                child: SvgPicture.asset("assets/quiz.svg"),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Center(
+                  child: Text("SEIQ Tool",
+                    style: GoogleFonts.montserrat(
+                        fontSize: 35,
+                        color: color,
+                        fontWeight: FontWeight.bold
+                    ),
+
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top:30.0,bottom: 50),
+                child: GoogleSignInButtonWidget(),
+              ),
             ],
           ),
         ),
@@ -42,7 +72,7 @@ class GoogleSignInButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Color? color = const Color(0xFF78fe04);
+    Color? color = const Color(0xFF27E9F7);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -60,7 +90,7 @@ class GoogleSignInButtonWidget extends StatelessWidget {
         child: OutlinedButton.icon(
           onPressed: () {
             final provider =
-                Provider.of<GoogleSignInProvider>(context, listen: false);
+            Provider.of<GoogleSignInProvider>(context, listen: false);
             provider.login();
           },
           icon: FaIcon(
